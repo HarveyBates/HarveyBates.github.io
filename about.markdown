@@ -15,5 +15,3 @@ Some links:
     + [**Open-JIP** : An open-source chlorophyll fluorometer](https://doi.org/10.1007/s11120-019-00673-2)
     + [**The Phenobottle** : An open-source photobioreactor ](https://doi.org/10.1016/j.algal.2020.102105)
 
-
-

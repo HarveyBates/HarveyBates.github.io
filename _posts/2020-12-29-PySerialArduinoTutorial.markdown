@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  "Reading array from an Arduino using PySerial"
+title:  "Tutorial: Reading array from an Arduino using PySerial"
 date:   2020-12-29 19:52:35 +1100
-categories: jekyll update
+categories: Tutorial
 ---
 
 ## Arduino side
-In this example the Python script is going to act as the master script (ask for data) and your Arduino microcontroller is going to act as the slave (provide data).
+In this example the Python program is going to act as the master script (ask for data) and your Arduino microcontroller is going to act as the slave (provide data).
 
 First we are going to setup the Arduino to read some random data from an analog pin.
 {% highlight C++ %}
@@ -69,43 +69,59 @@ If you havent already make sure you have PySerial installed. You can do this by 
 python3 -m pip install pyserial
 {% endhighlight %}
 
-Now we need to create a new python script and import pyserial.
+Now we need to create a new python script and preform some inital setup.
 {% highlight python %}
 import pyserial
 import time
 
-portAddress = "YOUR_PORT_ADDRESS" # Find this by navigating to Tools/Ports in the Arduino IDE
-baudRate = 9600 # Needs to match the Arduino setup baudrate
+# Find this by navigating to Tools/Ports in the Arduino IDE
+portAddress = "YOUR_PORT_ADDRESS" 
+# Needs to match the Arduino setup baudrate
+baudRate = 9600 
+# Set the array size of the array we want to read from the Arduino
 arraySize = 10
-
-ser = serial.Serial(portAddress, baudRate)
-
-def send_request(readOrSend):
-    global data
-    ser.flush()
-    time.sleep(1)
-    if(readOrSend == "ReadData"):
-        ser.write(b"ReadData")
-        return
-    else if(readOrSend == "SendData"):
-        ser.write(b"SendData")
-    else:
-        raise NameError("Unidentified request recieved: {}".format(readOrSend))
-    data = []
-    for _ in range(arraySize):
-        line = ser.readline()
-        line = str(line[0:len(line) - 2].decode("utf-8"))
-        data.append(line)
-
-if __name__ == "__main__":
-    send_request("ReadData")
-    delay(2000)
-    send_request("SendData")
-    for values in data:
-        print(values)
+# Intialise PySerial with a speific port address and baudrate
+ser = serial.Serial(portAddress, baudRate) 
 {% endhighlight %}
 
+Now we need to define a function to ask the microcontroller to read data. 
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+{% highlight python %}
+def read_data():
+    ser.flush()
+    ser.write(b"ReadData")
+{% endhighlight %}
+
+Next, we need to define a function to ask the microcontroller to send the data to out Python program. 
+
+{% highlight python %}
+def send_data(): 
+    # Create empty array to store values
+    data = []
+    ser.flush() # Ensure the serial port is empty
+    # Send a string to the Arduino in the form of bytes
+    ser.write(b"SendData") 
+    # Loop over the length of the array we are reading
+    for _ in range(arraySize):
+        line = ser.readline() # Get the value at each line
+        # Remove the return characters and decode values
+        line = str(line[0:len(line) - 2].decode("utf-8")) 
+        # Append the value to our array as an interger
+        data.append(int(line))
+    return data
+{% endhighlight %}
+
+Finally, we need to run these commands in sequence and print out our array. 
+
+{% highlight python %}
+if __name__ == "__main__":
+    read_data() # Ask the Arduino to read the data
+    delay(2000) # Wait for the Arduino to finish reading
+    data = send_data() # Ask the Arduino to send the data
+    for values in data:
+        print(values) # Print out each value in our array
+    ser.close() # Close the serial port 
+{% endhighlight %}
+
+Hopefully that helped you. 
+
