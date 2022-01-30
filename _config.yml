@@ -21,14 +21,10 @@
 title: Harvey Bates
 email: harvey_bates@hotmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Personal blog of Harvey Bates. 
+  Personal site of Harvey Bates. 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  HarveyBates
-collections:
-  - Tutorial
-  - Technology
-  - Science
 
 # Build settings
 theme: minima
