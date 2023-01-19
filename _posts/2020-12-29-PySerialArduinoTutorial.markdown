@@ -2,24 +2,28 @@
 layout: post
 title:  "Tutorial: Reading array from an Arduino using PySerial"
 date:   2020-12-29 19:52:35 +1100
+author: harvey
+tags: [technology, arduino, c++, python]
 categories: Tutorial
 ---
 
 ## Arduino side
+
 In this example the Python program is going to act as the master script (ask for data) and your Arduino microcontroller is going to act as the slave (provide data).
 
+### Setup
 First we are going to setup the Arduino to read some random data from an analog pin.
-{% highlight C++ %}
+```c++
 #define readPin 2 // Define which analog pin to read from
 int data[10]; // Create an empty array to store out values
 void setup(){
     Serial.begin(9600); // Enable serial communications at a specific baud rate
 }
-{% endhighlight %}
+```
 
 Now we need to create two functions to first capture some data and save it to our array (`read_data()`) and then send the data via the serial port to our Python script (`send_data()`). 
 
-{% highlight C++ %}
+```c++
 void read_data(){
     /* The number of itterations is determined by getting the size of 
     our array (in bytes) divided by the size of the data type in our array 
@@ -36,11 +40,11 @@ void send_data(){
         Serial.println(data[i]);
     }
 }
-{% endhighlight %}
+```
 
 Finally we need to make our microcontroller check to see if there are requests from the Python script to either `read_data()` or `send_data()`.
 
-{% highlight C++ %}
+```c++
 void loop(){
     /* Check if there are commands (sent from the Python script) 
     in the serial port */
@@ -60,17 +64,20 @@ void loop(){
     }
     delay(1000); // One second delay as this process isn't time sensitive
 }
-{% endhighlight %}
+
+```
 That wraps up the Arduino firmware, you can now upload this script to your Arduino as the rest of the tutorial will be done using Python.
 
 ## Python side
+
+### Installation
 If you havent already make sure you have PySerial installed. You can do this by typing this command into your terminal, console or command prompt. 
-{% highlight command %}
+```bash
 python3 -m pip install pyserial
-{% endhighlight %}
+```
 
 Now we need to create a new python script and preform some inital setup.
-{% highlight python %}
+```python
 import pyserial
 import time
 
@@ -82,19 +89,19 @@ baudRate = 9600
 arraySize = 10
 # Intialise PySerial with a speific port address and baudrate
 ser = serial.Serial(portAddress, baudRate) 
-{% endhighlight %}
+```
 
 Now we need to define a function to ask the microcontroller to read data. 
 
-{% highlight python %}
+```python
 def read_data():
     ser.flush()
     ser.write(b"ReadData")
-{% endhighlight %}
+```
 
 Next, we need to define a function to ask the microcontroller to send the data to out Python program. 
 
-{% highlight python %}
+```python
 def send_data(): 
     # Create empty array to store values
     data = []
@@ -109,11 +116,11 @@ def send_data():
         # Append the value to our array as an interger
         data.append(int(line))
     return data
-{% endhighlight %}
+```
 
 Finally, we need to run these commands in sequence and print out our array. 
 
-{% highlight python %}
+```python
 if __name__ == "__main__":
     read_data() # Ask the Arduino to read the data
     delay(2000) # Wait for the Arduino to finish reading
@@ -121,7 +128,7 @@ if __name__ == "__main__":
     for values in data:
         print(values) # Print out each value in our array
     ser.close() # Close the serial port 
-{% endhighlight %}
+```
 
 Hopefully that helped you. 
 

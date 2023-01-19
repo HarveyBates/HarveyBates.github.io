@@ -17,7 +17,7 @@ Through-hole (THT) components or surface mount (SMD) components, for me the time
 As an alternative to soldering with a soldering iron and reel of solder, reflow soldering uses beads of solder suspended with flux to form a paste. The paste is applied to the circuit board, whereafter components are placed to bridge the unmelted solder joints. The circuit board is then placed in an oven, set to a preset thermal profile (change in temperature over time) and the solder melts to attach components to the circuit board permanently (Figure 1). 
 
 <p align="center">
-    <img src="/img/reflow-wiki.png">
+    <img src="/assets/img/reflow-wiki.png">
     <p align="center">
     <strong>Figure 1.</strong> Thermal profile of conventional reflow soldering. Total time is around three minutes.</p>
 </p>
@@ -65,13 +65,13 @@ Technique produces really good solder joints compared to hand soldering and take
 </style>
 <div class="row">
   <div class="column">
-    <img src="/img/LEDArray.jpg" alt="LED Array" style="width:100%">
+    <img src="/assets/img/LEDArray.jpg" alt="LED Array" style="width:100%">
   </div>
   <div class="column">
-    <img src="/img/controller.jpg" alt="controller" style="width:100%">
+    <img src="/assets/img/controller.jpg" alt="controller" style="width:100%">
   </div>
   <div class="column">
-    <img src="/img/detector.jpg" alt="detector" style="width:100%">
+    <img src="/assets/img/detector.jpg" alt="detector" style="width:100%">
   </div>
 </div>
 
