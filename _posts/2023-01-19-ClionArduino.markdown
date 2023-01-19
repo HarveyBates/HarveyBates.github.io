@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "\"Arduino.h\" file not found. PlatformIO (Clion)"
+title:  "Arduino.h file not found. PlatformIO (Clion)"
 date:   2023-01-19 21:52:00 +1100
 author: harvey
 tags: [technology, arduino, solutions]
